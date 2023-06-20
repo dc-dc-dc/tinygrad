@@ -1,5 +1,6 @@
 import os, time, ctypes, hashlib, subprocess, platform
-from tinygrad.helpers import DEBUG
+from tinygrad.codegen.assembly_x86 import X86Codegen
+from tinygrad.helpers import DEBUG, getenv
 from tinygrad.ops import Compiled
 from tinygrad.runtime.lib import RawMallocBuffer
 from tinygrad.codegen.cstyle import CStyleCodegen, CStyleLanguage
@@ -38,4 +39,4 @@ class ClangCodegen(CStyleCodegen):
   lang = CStyleLanguage(kernel_prefix=args['exp'], buffer_suffix=" restrict")
   supports_float4: bool = False
 
-ClangBuffer = Compiled(RawMallocBuffer, ClangCodegen, ClangProgram)
+ClangBuffer = Compiled(RawMallocBuffer, X86Codegen if getenv("X86") else ClangCodegen, ClangProgram)
