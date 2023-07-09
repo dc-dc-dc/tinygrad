@@ -21,7 +21,7 @@ class X86Codegen(AssemblyCodegen):
       if DEBUG >= 5: ins.append(f"# {AssemblyInstruction(uop, out, vin, arg)}")
       if uop == UOps.DEFINE_REGISTER:
         for i in range(arg[2]):
-          local_var_size += arg[0].itemsize
+          local_var_size += arg[0][0].itemsize
           # TODO use float registers
           reg_map[f"%{arg[1]}{i}"] = f"-{local_var_size}(%rbp)"
       elif uop == UOps.DEFINE_LOCAL:
